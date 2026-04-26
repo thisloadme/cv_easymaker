@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String?
+  name          String?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  cvs           CV[]
+}
+
+model CV {
+  id                  String    @id @default(cuid())
+  userId              String?
+  user                User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  targetRole          String
+  status              String    @default("draft")
+
+  personal            String    @default("{}")
+  summary             String    @default("")
+  experience          String    @default("[]")
+  education           String    @default("[]")
+  skills              String    @default("[]")
+  projects            String    @default("[]")
+
+  atsScore            Int       @default(0)
+  atsKeywords         String    @default("[]")
+  atsMissingKeywords  String    @default("[]")
+
+  lastExportedAt      DateTime?
+  exportFormat        String?
+  shareSlug           String?   @unique
+
+  // Versioning
+  version             Int       @default(1)
+  parentId            String?   // link to previous version
+  isLatest            Boolean   @default(true)
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([shareSlug])
+  @@index([parentId])
+}
