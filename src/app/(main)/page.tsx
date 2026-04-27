@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { ArrowRight, User } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
 
 export default function Home() {
   const { data: session } = useSession()
@@ -12,7 +13,10 @@ export default function Home() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-paper/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <span className="font-display text-xl font-semibold text-ink">cv maker.</span>
+          <div className="flex items-center gap-2">
+            <Logo className="w-8 h-8" />
+            <span className="font-display text-xl font-semibold text-ink">CV EasyMaker</span>
+          </div>
           <nav className="flex items-center gap-6">
             {session?.user ? (
               <>
@@ -144,7 +148,7 @@ export default function Home() {
       <footer className="border-t border-border py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-ui text-sm text-muted">
-            © 2026 CV Maker. Built for job seekers.
+            © 2026 CV EasyMaker. Built for job seekers.
           </p>
           <div className="flex items-center gap-6">
             {session ? (
